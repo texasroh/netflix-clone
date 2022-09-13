@@ -25,3 +25,7 @@ export function getMovies() {
         (response) => response.json()
     );
 }
+
+export function getSearch() {
+    return fetch(`${BASE_PATH}/`);
+}
