@@ -28,11 +28,15 @@ function Home() {
         ["movies", "nowPlaying"],
         getNowPlaying
     );
-    const { data: topRated, isLoading: isLoadingTopRated } =
-        useQuery<IGetMoviesResult>(["movies", "topRated"], getTopRated);
+    const { data: topRated } = useQuery<IGetMoviesResult>(
+        ["movies", "topRated"],
+        getTopRated
+    );
 
-    const { data: upcoming, isLoading: isLoadingUpcoming } =
-        useQuery<IGetMoviesResult>(["movies", "upComing"], getUpcoming);
+    const { data: upcoming } = useQuery<IGetMoviesResult>(
+        ["movies", "upComing"],
+        getUpcoming
+    );
 
     const bigMovieMatch = useMatch("movies/:link/:movieId");
 
