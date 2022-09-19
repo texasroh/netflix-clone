@@ -38,7 +38,9 @@ function Home() {
         getUpcoming
     );
 
-    const bigMovieMatch = useMatch("movies/:link/:movieId");
+    const bigMovieMatch = useMatch(
+        `${process.env.PUBLIC_URL}/movies/:link/:movieId`
+    );
 
     return (
         <Wrapper>

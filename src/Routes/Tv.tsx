@@ -43,7 +43,7 @@ function Tv() {
         getTvTopRated
     );
 
-    const bigTvMatch = useMatch("tv/:link/:tvId");
+    const bigTvMatch = useMatch(`${process.env.PUBLIC_URL}/tv/:link/:tvId`);
 
     return (
         <Wrapper>

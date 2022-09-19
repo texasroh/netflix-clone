@@ -69,7 +69,9 @@ export const MovieDetail = () => {
     const navigate = useNavigate();
     const onOverlayClicked = () => navigate("/");
 
-    const bigMovieMatch = useMatch("movies/:link/:movieId");
+    const bigMovieMatch = useMatch(
+        `${process.env.PUBLIC_URL}/movies/:link/:movieId`
+    );
     const link = bigMovieMatch?.params.link;
     const movieId = bigMovieMatch?.params.movieId;
     const { data: movie, isLoading } = useQuery<IMovieDetail>(

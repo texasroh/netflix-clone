@@ -69,7 +69,7 @@ export const TvDetail = () => {
     const navigate = useNavigate();
     const onOverlayClicked = () => navigate("");
 
-    const bigMovieMatch = useMatch("tv/:link/:tvId");
+    const bigMovieMatch = useMatch(`${process.env.PUBLIC_URL}/tv/:link/:tvId`);
     const link = bigMovieMatch?.params.link;
     const tvId = bigMovieMatch?.params.tvId;
     const { data: tv, isLoading } = useQuery<ITvDetail>(["tv", tvId], () =>
