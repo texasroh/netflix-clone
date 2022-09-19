@@ -75,7 +75,6 @@ export const TvDetail = () => {
     const { data: tv, isLoading } = useQuery<ITvDetail>(["tv", tvId], () =>
         getTvDetail(tvId!)
     );
-    console.log("tvdetail", tv);
     return (
         <AnimatePresence>
             <Overlay
