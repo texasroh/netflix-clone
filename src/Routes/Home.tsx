@@ -9,7 +9,7 @@ import {
 } from "../api";
 import { Banner } from "../Components/Banner";
 import { MovieDetail } from "../Components/MovieDetail";
-import { Slider } from "../Components/Slider";
+import { MovieSlider } from "../Components/MovieSlider";
 
 const Wrapper = styled.div`
     background: black;
@@ -43,17 +43,17 @@ function Home() {
             ) : (
                 <>
                     <Banner movie={nowPlaying?.results[0]}></Banner>
-                    <Slider
+                    <MovieSlider
                         movies={nowPlaying?.results.slice(1)}
                         category="Now Playing"
                         link="now-playing"
                     />
-                    <Slider
+                    <MovieSlider
                         movies={topRated?.results}
                         category="Top Rated"
                         link="top-rated"
                     />
-                    <Slider
+                    <MovieSlider
                         movies={upcoming?.results}
                         category="Upcoming"
                         link="upcoming"

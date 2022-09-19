@@ -121,7 +121,7 @@ interface SliderProps {
 
 const offset = 6;
 
-export const Slider = ({ movies, category, link }: SliderProps) => {
+export const MovieSlider = ({ movies, category, link }: SliderProps) => {
     const navigate = useNavigate();
     const [leaving, setLeaving] = useState(false);
     const [reverse, setReverse] = useState(false);

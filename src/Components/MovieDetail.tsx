@@ -101,8 +101,10 @@ export const MovieDetail = () => {
                             <Row>
                                 <span>{movie?.runtime} min</span>
                                 <span>
-                                    ⭐{movie?.vote_average} ({movie?.vote_count}
-                                    )
+                                    ⭐
+                                    {Math.round(movie!.vote_average * 100) /
+                                        100}{" "}
+                                    ({movie?.vote_count})
                                 </span>
                             </Row>
                             <BigOverviwe>{movie?.overview}</BigOverviwe>
