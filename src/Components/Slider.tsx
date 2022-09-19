@@ -14,7 +14,6 @@ const Row = styled(motion.div)`
   display: grid;
   gap: 10px;
   grid-template-columns: repeat(6, 1fr);
-  position: absolute;
   width: 100%;
 `;
 
@@ -46,6 +45,35 @@ const Info = styled(motion.div)`
     text-align: center;
     font-size: 18px;
   }
+`;
+
+const Arrow = styled.span`
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1px solid white;
+  border-radius: 100%;
+  cursor: pointer;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  color: black;
+  position: absolute;
+  top: calc(50% - 25px);
+`;
+
+const Left = styled(Arrow)`
+  &::before {
+    content: "<";
+  }
+  left: 20px;
+`;
+const Right = styled(Arrow)`
+  &::before {
+    content: ">";
+  }
+  right: 20px;
 `;
 
 const rowVariants = {
@@ -105,6 +133,7 @@ export const Slider = ({ movies, category }: SliderProps) => {
 
   return (
     <Wrapper>
+      <h1>{category}</h1>
       <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
         <Row
           variants={rowVariants}
@@ -117,7 +146,7 @@ export const Slider = ({ movies, category }: SliderProps) => {
             ?.slice(offset * index, offset * index + offset)
             .map((movie) => (
               <Box
-                key={`${category}-${movie.id}`}
+                key={`${movie.id}`}
                 whileHover="hover"
                 initial="normal"
                 variants={boxVariants}
@@ -135,6 +164,8 @@ export const Slider = ({ movies, category }: SliderProps) => {
             ))}
         </Row>
       </AnimatePresence>
+      <Left onClick={increaseIndex} />
+      <Right onClick={increaseIndex} />
     </Wrapper>
   );
 };

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useQuery } from "react-query";
 import { useMatch, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { getMovies, IGetMoviesResult } from "../api";
+import { getTopRated, getNowPlaying, IGetMoviesResult } from "../api";
 import { Banner } from "../Components/Banner";
 import { Slider } from "../Components/Slider";
 import { makeImagePath } from "../utils";
@@ -75,17 +75,20 @@ const offset = 6;
 function Home() {
   const navigate = useNavigate();
   const bigMovieMatch = useMatch("movies/:movieId");
-  const { data, isLoading } = useQuery<IGetMoviesResult>(
+  const { data: nowPlaying, isLoading } = useQuery<IGetMoviesResult>(
     ["movies", "nowPlaying"],
-    getMovies
+    getNowPlaying
   );
+  const { data: topRated, isLoading: isLoadingTopRated } =
+    useQuery<IGetMoviesResult>(["movies", "lastest"], getTopRated);
+
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
   const increaseIndex = () => {
-    if (data) {
+    if (nowPlaying) {
       if (leaving) return;
       toggleLeaving();
-      const totalMovies = data?.results.length - 1;
+      const totalMovies = nowPlaying?.results.length - 1;
       const maxIndex = Math.floor(totalMovies / offset) - 1;
       setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
     }
@@ -98,19 +101,21 @@ function Home() {
   const onOverlayClicked = () => navigate("/");
   const clickedMovie =
     bigMovieMatch?.params.movieId &&
-    data?.results.find(
+    nowPlaying?.results.find(
       (movie) => String(movie.id) === bigMovieMatch.params.movieId
     );
-
   return (
     <Wrapper>
       {isLoading ? (
         <Loader>Loading..</Loader>
       ) : (
         <>
-          <Banner movie={data?.results[0]}></Banner>
-          <Slider movies={data?.results.slice(1)} category="now-playing" />
-          <Slider movies={data?.results} category="now-playing2" />
+          <Banner movie={nowPlaying?.results[0]}></Banner>
+          <Slider
+            movies={nowPlaying?.results.slice(1)}
+            category="Now Playing"
+          />
+          <Slider movies={topRated?.results} category="Lastest" />
           <AnimatePresence>
             {bigMovieMatch ? (
               <>
