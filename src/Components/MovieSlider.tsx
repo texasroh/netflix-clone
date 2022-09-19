@@ -171,13 +171,13 @@ export const MovieSlider = ({ movies, category, link }: SliderProps) => {
                     animate="visible"
                     exit="exit"
                     transition={{ type: "tween", duration: 1 }}
-                    key={link + index}
+                    key={index}
                 >
                     {movies
                         ?.slice(offset * index, offset * index + offset)
                         .map((movie) => (
                             <Box
-                                key={link + movie.id}
+                                key={movie.id}
                                 whileHover="hover"
                                 initial="normal"
                                 variants={boxVariants}

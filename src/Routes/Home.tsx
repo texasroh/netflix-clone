@@ -7,7 +7,7 @@ import {
     IGetMoviesResult,
     getUpcoming,
 } from "../api";
-import { Banner } from "../Components/Banner";
+import { MovieBanner } from "../Components/MovieBanner";
 import { MovieDetail } from "../Components/MovieDetail";
 import { MovieSlider } from "../Components/MovieSlider";
 
@@ -42,7 +42,7 @@ function Home() {
                 <Loader>Loading..</Loader>
             ) : (
                 <>
-                    <Banner movie={nowPlaying?.results[0]}></Banner>
+                    <MovieBanner movie={nowPlaying?.results[0]}></MovieBanner>
                     <MovieSlider
                         movies={nowPlaying?.results.slice(1)}
                         category="Now Playing"

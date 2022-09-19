@@ -63,3 +63,9 @@ export function getUpcoming() {
 export function getSearch() {
     return fetch(`${BASE_PATH}/`);
 }
+
+export function getTVLatest() {
+    return fetch(`${BASE_PATH}/tv/latest?api_key=${API_KEY}`).then((response) =>
+        response.json()
+    );
+}

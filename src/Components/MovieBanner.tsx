@@ -27,7 +27,7 @@ interface BannerProps {
     movie?: IMovie;
 }
 
-export const Banner = ({ movie }: BannerProps) => {
+export const MovieBanner = ({ movie }: BannerProps) => {
     return (
         <Wrapper $bgPhoto={makeImagePath(movie?.backdrop_path || "")}>
             <Title>{movie?.title}</Title>
