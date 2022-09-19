@@ -67,7 +67,7 @@ const BigOverviwe = styled.p`
 
 export const MovieDetail = () => {
     const navigate = useNavigate();
-    const onOverlayClicked = () => navigate("/");
+    const onOverlayClicked = () => navigate("");
 
     const bigMovieMatch = useMatch(
         `${process.env.PUBLIC_URL}/movies/:link/:movieId`
