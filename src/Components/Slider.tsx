@@ -7,8 +7,8 @@ import { makeImagePath } from "../utils";
 
 const Wrapper = styled.div`
     position: relative;
-    top: -100px;
-    overflow: hidden;
+    top: -170px;
+    height: 300px;
 `;
 
 const Title = styled.div`
@@ -18,6 +18,7 @@ const Title = styled.div`
 `;
 
 const Row = styled(motion.div)`
+    position: absolute;
     display: grid;
     gap: 10px;
     grid-template-columns: repeat(6, 1fr);
@@ -84,11 +85,13 @@ const Right = styled(Arrow)`
 `;
 
 const rowVariants = {
-    hidden: {
-        x: window.outerWidth + 10,
-    },
+    entry: (reverse: boolean) => ({
+        x: reverse ? window.outerWidth + 10 : -window.outerWidth - 10,
+    }),
     visible: { x: 0 },
-    exit: { x: -window.outerWidth - 10 },
+    exit: (reverse: boolean) => ({
+        x: reverse ? -window.outerWidth - 10 : window.outerWidth + 10,
+    }),
 };
 
 const boxVariants = {
@@ -113,30 +116,43 @@ const infoVariants = {
 interface SliderProps {
     movies?: IMovie[];
     category: string;
+    link: string;
 }
 
 const offset = 6;
 
-export const Slider = ({ movies, category }: SliderProps) => {
-    console.log(category, movies);
+export const Slider = ({ movies, category, link }: SliderProps) => {
     const navigate = useNavigate();
     const [leaving, setLeaving] = useState(false);
-    const toggleLeaving = () => {
-        setLeaving((prev) => !prev);
-    };
+    const [reverse, setReverse] = useState(false);
+
     const [index, setIndex] = useState(0);
     const increaseIndex = () => {
-        if (movies) {
-            if (leaving) return;
-            toggleLeaving();
+        if (!leaving && movies) {
+            setReverse(false);
+            setLeaving(true);
             const totalMovies = movies.length - 1;
             const maxIndex = Math.floor(totalMovies / offset) - 1;
             setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
         }
     };
+    const decreaseIndex = () => {
+        if (!leaving && movies) {
+            setReverse(true);
+            setLeaving(true);
+            const totalMovies = movies.length - 1;
+            const maxIndex = Math.floor(totalMovies / offset) - 1;
+            setIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
+        }
+    };
 
     const onBoxClicked = (movieId: number) => {
-        navigate(`movies/${movieId}`);
+        navigate(`movies/${link}/${movieId}`);
+    };
+
+    const onExitComplete = () => {
+        setLeaving(false);
+        setReverse(false);
     };
 
     return (
@@ -144,28 +160,30 @@ export const Slider = ({ movies, category }: SliderProps) => {
             <Title>{category}</Title>
             <AnimatePresence
                 initial={false}
-                onExitComplete={toggleLeaving}
+                onExitComplete={onExitComplete}
                 mode="popLayout"
+                custom={reverse}
             >
                 <Row
                     variants={rowVariants}
-                    initial="hidden"
+                    custom={reverse}
+                    initial="entry"
                     animate="visible"
                     exit="exit"
                     transition={{ type: "tween", duration: 1 }}
-                    key={index}
+                    key={link + index}
                 >
                     {movies
                         ?.slice(offset * index, offset * index + offset)
                         .map((movie) => (
                             <Box
-                                key={`${movie.id}`}
+                                key={link + movie.id}
                                 whileHover="hover"
                                 initial="normal"
                                 variants={boxVariants}
                                 onClick={() => onBoxClicked(movie.id)}
                                 transition={{ type: "tween" }}
-                                layoutId={movie.id + ""}
+                                layoutId={link + movie.id}
                             >
                                 <BoxCover
                                     $bgPhoto={makeImagePath(
@@ -181,7 +199,7 @@ export const Slider = ({ movies, category }: SliderProps) => {
                 </Row>
             </AnimatePresence>
             <Left onClick={increaseIndex} />
-            <Right onClick={increaseIndex} />
+            <Right onClick={decreaseIndex} />
         </Wrapper>
     );
 };

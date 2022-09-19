@@ -20,7 +20,23 @@ export interface IGetMoviesResult {
     total_results: number;
 }
 
-export function getMovieDetail(movieId: number) {
+export interface IMovieDetail {
+    id: number;
+    backdrop_path: string;
+    popularity: number;
+    production_companies: {
+        name: string;
+        logo_path: string;
+    };
+    release_date: string;
+    runtime: number;
+    title: string;
+    vote_average: number;
+    vote_count: number;
+    overview: string;
+}
+
+export function getMovieDetail(movieId: string) {
     return fetch(`${BASE_PATH}/movie/${movieId}?api_key=${API_KEY}`).then(
         (response) => response.json()
     );
@@ -34,6 +50,12 @@ export function getNowPlaying() {
 
 export function getTopRated() {
     return fetch(`${BASE_PATH}/movie/top_rated?api_key=${API_KEY}`).then(
+        (response) => response.json()
+    );
+}
+
+export function getUpcoming() {
+    return fetch(`${BASE_PATH}/movie/upcoming?api_key=${API_KEY}`).then(
         (response) => response.json()
     );
 }
